@@ -31,17 +31,20 @@ Example of some vagrant commands:
 mkdir vagrant-vm && cd vagrant-vm
 # example vagrant cloud page for ubuntu:
 # https://app.vagrantup.com/ubuntu/boxes/trusty64
-vagrant init ubuntu/trusty64
+vagrant init ubuntu/trusty64  # creates Vagrantfile
+vagrant up                    # bring up vm (power on)
+vagrant status                # check status of vm
+vagrant box list              # list available boxes
+vagrant ssh                   # log in to the vm
+vagrant halt                  # power off vm
 vagrant up
-vagrant status
+vagrant reload                # reboot vm
+vagrant destroy               # delete vm
 vagrant box list
-vagrant ssh
-vagrant halt
-vagrant up
-vagrant reload
-vagrant destroy
-vagrant box list
+vagrant global-status         # check status of all VMs
 ```
+
+[Sample output notes](vagrant_output_notes_20240804.md)
 
 ## 4. Linux
 
