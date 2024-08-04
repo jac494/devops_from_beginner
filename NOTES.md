@@ -48,6 +48,57 @@ vagrant global-status         # check status of all VMs
 
 ## 4. Linux
 
+So far it is very beginner. This is fine but I'm just watching through. I'll take some notes here if anything stands out.
+
+### Introduction to Linux
+
+#### Some Important Directories
+
+One thing I've never known is the difference between the `bin` directories and `sbin` directories...
+
+| type | paths | notes |
+| ---- | ----- | ----- |
+| Home directories | `/root`, `/home/<user>` | |
+| user executable | `/bin`, `/usr/bin`, `/usr/local/bin` | |
+| system executables | `/sbin`, `/usr/sbin`, `/usr/local/sbin` | things like `rpm` or `dpkg`, `useradd`, etc |
+| other mountpoints | `/media`, `/mnt` | |
+| configuration | `/etc` | |
+| temporary files | `/tmp` | |
+| kernels and bootloader | `/boot` | |
+| server data | `/var`, `/srv` | |
+| system information | `/proc`, `/sys` | |
+| shared libraries | `/lib`, `/usr/lib`, `/usr/local/lib` | |
+
+### Commands And Filesystems
+
+#### `/etc/os-release`
+
+```sh
+$ cat /etc/os-release
+NAME="Fedora Linux"
+VERSION="37 (Workstation Edition)"
+ID=fedora
+VERSION_ID=37
+VERSION_CODENAME=""
+PLATFORM_ID="platform:f37"
+PRETTY_NAME="Fedora Linux 37 (Workstation Edition)"
+ANSI_COLOR="0;38;2;60;110;180"
+LOGO=fedora-logo-icon
+CPE_NAME="cpe:/o:fedoraproject:fedora:37"
+DEFAULT_HOSTNAME="fedora"
+HOME_URL="https://fedoraproject.org/"
+DOCUMENTATION_URL="https://docs.fedoraproject.org/en-US/fedora/f37/system-administrators-guide/"
+SUPPORT_URL="https://ask.fedoraproject.org/"
+BUG_REPORT_URL="https://bugzilla.redhat.com/"
+REDHAT_BUGZILLA_PRODUCT="Fedora"
+REDHAT_BUGZILLA_PRODUCT_VERSION=37
+REDHAT_SUPPORT_PRODUCT="Fedora"
+REDHAT_SUPPORT_PRODUCT_VERSION=37
+SUPPORT_END=2023-12-05
+VARIANT="Workstation Edition"
+VARIANT_ID=workstation
+```
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
