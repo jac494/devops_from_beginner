@@ -1,5 +1,7 @@
 # Vagrant Output Notes 20240804
 
+[NOTES.md](NOTES.md)
+
 Sample output
 
 ```txt
