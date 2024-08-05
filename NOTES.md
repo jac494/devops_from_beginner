@@ -99,6 +99,16 @@ VARIANT="Workstation Edition"
 VARIANT_ID=workstation
 ```
 
+#### `uptime`
+
+```sh
+$ uptime
+ 16:19:55 up 294 days,  8:33,  1 user,  load average: 0.00, 0.02, 0.04
+
+$ cat /proc/uptime
+25432421.82 28797035.45
+```
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
