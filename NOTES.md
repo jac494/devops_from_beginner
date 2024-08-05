@@ -109,6 +109,17 @@ $ cat /proc/uptime
 25432421.82 28797035.45
 ```
 
+### File Types
+
+| file type | first character in file listing | description | notes |
+| --------- | ------------------------------- | ----------- | ----- |
+| regular file | `-` | normal files such as text, data, or executable files | |
+| directory | `d` | files that are lists of other files | |
+| link | `l` | a shortcut that points to the location of the actual file | |
+| special file | `c` | mechanism used for input and output, such as files in `/dev` | |
+| socket | `s` | a special file that provides inter-process networking protexted by the system's access control | |
+| pipe | `p` | a psecial file that allows processes to communicate with each other without using network socket semantics | |
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
