@@ -113,9 +113,9 @@ $ cat /proc/uptime
 
 | file type | first character in file listing | description | notes |
 | --------- | ------------------------------- | ----------- | ----- |
-| regular file | `-` | normal files such as text, data, or executable files | |
-| directory | `d` | files that are lists of other files | |
-| link | `l` | a shortcut that points to the location of the actual file | |
+| regular file | `-` | normal files such as text, data, or executable files | create with `touch` among others |
+| directory | `d` | files that are lists of other files | create with `mkdir` |
+| link | `l` | a shortcut that points to the location of the actual file | create with `ln`; `ln -s <dest> <link name>`; remove with `rm` or `unlink` |
 | special file | `c` | mechanism used for input and output, such as files in `/dev` | |
 | socket | `s` | a special file that provides inter-process networking protexted by the system's access control | |
 | pipe | `p` | a psecial file that allows processes to communicate with each other without using network socket semantics | |
