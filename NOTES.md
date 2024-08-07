@@ -120,6 +120,19 @@ $ cat /proc/uptime
 | socket | `s` | a special file that provides inter-process networking protexted by the system's access control | |
 | pipe | `p` | a psecial file that allows processes to communicate with each other without using network socket semantics | |
 
+### IO Redirection
+
+random sidenote, I always forget about `free`
+
+```txt
+$ free -hm
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       781Mi        13Gi       344Mi       1.7Gi        14Gi
+Swap:          2.0Gi          0B       2.0Gi
+```
+
+
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
