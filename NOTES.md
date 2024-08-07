@@ -131,7 +131,53 @@ Mem:            15Gi       781Mi        13Gi       344Mi       1.7Gi        14Gi
 Swap:          2.0Gi          0B       2.0Gi
 ```
 
+most basic redirection, redirect stdout with right angle bracket: `>`
 
+the most basic fds:
+
+* 1: stdout
+* 2: stderr
+
+include error output to the redirect with ampersand...
+
+Example file to write to both stdout and stderr:
+
+```txt
+$ cat stdout_stderr.sh
+#!/usr/bin/env sh
+
+echo "This is some output that should go to STDOUT";
+>&2 echo "This is some output that should go to STDERR";
+```
+
+No redirection, all output of both stdout and stderr seen:
+
+```txt
+$ ./stdout_stderr.sh 
+This is some output that should go to STDOUT
+This is some output that should go to STDERR
+```
+
+Redirect only stdout, stderr still goes to terminal:
+
+```txt
+ $ ./stdout_stderr.sh > /dev/null
+This is some output that should go to STDERR
+```
+
+Redirect only stderr, stdout still goes to terminal:
+
+```txt
+ $ ./stdout_stderr.sh 2> /dev/null 
+This is some output that should go to STDOUT
+```
+
+Redirect both, no output goes to terminal:
+
+```txt
+ $ ./stdout_stderr.sh &> /dev/null
+ <no output to show>
+```
 
 ## 5. Vagrant & Linux Servers
 
