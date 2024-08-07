@@ -179,6 +179,35 @@ Redirect both, no output goes to terminal:
  <no output to show>
 ```
 
+### Users & Groups
+
+Types of users
+
+| Type | Example | UID | GID | Home Dir | Shell |
+| ---- | ------- | --- | --- | -------- | ----- |
+| ROOT | root | 0 | 0 | `/root` | `/bin/bash` |
+| Regular | jac494, vagrant | 1000-60000 | 1000-60000 | `/home/<username>` | `/bin/bash` |
+| Service | ftp, ssh, apache | 1-999 | 1-999 | `/var/ftp`, etc (or none) | `/sbin/nologin` |
+
+```txt
+$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+chrony:x:994:992:chrony system user:/var/lib/chrony:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/sbin/nologin
+jac494:x:2010:2010:Drew Conner:/home/jac494:/usr/bin/zsh
+dhcpcd:x:970:970:Minimalistic DHCP client:/var/lib/dhcpcd:/usr/sbin/nologin
+```
+
+User passwords are stored encrypted in `/etc/shadow`
+
+Commands:
+
+`useradd`, `usermod`, `groupadd`, `userdel`, `groupdel`, `passwd`, `su - <username>`
+
+### File Permissions
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
