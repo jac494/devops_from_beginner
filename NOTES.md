@@ -227,6 +227,25 @@ for a directory, `x`/execute permissions mean that you can change into that dire
 
 for a link, the permissions are for the link, not for the actual file that it links to
 
+### Sudo
+
+* `/etc/sudoers`
+* edit with `visudo`
+* place additional custom files in `/etc/sudoers.d/` directory
+
+```txt
+## Some sudoers syntax
+## Allow root to run any commands anywhere 
+root    ALL=(ALL)       ALL
+## Allow user (suser) to run commands with sudo, prompt for password
+suser   ALL=(ALL)       ALL
+## Allow user (nopuser) to run commands with sudo and do not
+## prompt for password
+nopuser ALL=(ALL)       NOPASSWD: ALL
+## group devops group has sudo access
+%devops ALL=(ALL)       NOPASSWD: ALL
+```
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
