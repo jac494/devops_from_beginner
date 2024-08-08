@@ -246,6 +246,79 @@ nopuser ALL=(ALL)       NOPASSWD: ALL
 %devops ALL=(ALL)       NOPASSWD: ALL
 ```
 
+### Package Management
+
+* `rpm -qa`: list all packages installed on an rpm based system
+* `dpkg -l`: list all packages installed on a debian based system
+* `/etc/yum.repos.d`: directory for yum repos files
+* `/etc/apt/sources.list`, `/etc/apt/sources.list.d/` for apt repos files
+
+```txt
+$ rpm -qa | head -5
+gpg-pubkey-5323552a-6112bcdc
+code-1.74.2-1671533504.el7.x86_64
+gpg-pubkey-621e9f35-58ade481
+docker-scan-plugin-0.23.0-3.fc37.x86_64
+$ rpm -qa | wc -l
+3209
+```
+
+```txt
+$ dpkg -l | head -10
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                                       Version                                           Architecture Description
++++-==========================================-=================================================-============-================================================================================
+ii  accountsservice                            22.07.5-2ubuntu1.5                                amd64        query and manipulate user account information
+ii  acl                                        2.3.1-1                                           amd64        access control list - utilities
+ii  acpi-support                               0.144                                             amd64        scripts for handling many ACPI events
+ii  acpid                                      1:2.0.33-1ubuntu1                                 amd64        Advanced Configuration and Power Interface event daemon
+ii  adduser                                    3.118ubuntu5                                      all          add and remove users and groups
+$ dpkg -l | wc -l
+1826
+```
+
+```txt
+$ ls -1 /etc/yum.repos.d  
+fedora.repo
+fedora-updates.repo
+fedora-updates-testing.repo
+```
+
+```txt
+$ cat /etc/yum.repos.d/fedora.repo
+[fedora]
+name=Fedora $releasever - $basearch
+#baseurl=http://download.example/pub/fedora/linux/releases/$releasever/Everything/$basearch/os/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
+enabled=1
+countme=1
+metadata_expire=7d
+repo_gpgcheck=0
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
+```
+
+```txt
+$ cat /etc/apt/sources.list
+#deb cdrom:[Ubuntu 22.04.3 LTS _Jammy Jellyfish_ - Release amd64 (20230807.2)]/ jammy main restricted
+
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb http://us.archive.ubuntu.com/ubuntu/ jammy main restricted
+# deb-src http://us.archive.ubuntu.com/ubuntu/ jammy main restricted
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
+# deb-src http://us.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
+```
+
+### Services
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
