@@ -319,6 +319,74 @@ deb http://us.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
 
 ### Services
 
+...video is basically a run through of `systemctl` basics; there's a whole set of man pages for that:
+
+```txt
+$ apropos systemd | grep "^systemd" | wc -l
+253
+
+$ apropos systemd | grep "^systemd" | head -10
+systemd (1)          - systemd system and service manager
+systemd-ac-power (1) - Report whether we are connected to an external power source
+systemd-analyze (1)  - Analyze and debug system manager
+systemd-ask-password (1) - Query the user for a system password
+systemd-ask-password-console.path (8) - Query the user for system passwords on the console and v...
+systemd-ask-password-console.service (8) - Query the user for system passwords on the console an...
+systemd-ask-password-wall.path (8) - Query the user for system passwords on the console and via ...
+systemd-ask-password-wall.service (8) - Query the user for system passwords on the console and v...
+systemd-backlight (8) - Load and save the display backlight brightness at boot and shutdown
+systemd-backlight@.service (8) - Load and save the display backlight brightness at boot and shut
+
+$ apropos systemd | grep "^systemd" | grep -v "\.service" | wc -l
+158
+
+$ apropos systemd | grep "^systemd\."                                 
+systemd.automount (5) - Automount unit configuration
+systemd.device (5)   - Device unit configuration
+systemd.directives (7) - Index of configuration directives
+systemd.dnssd (5)    - DNS-SD configuration
+systemd.environment-generator (7) - systemd environment file generators
+systemd.exec (5)     - Execution environment configuration
+systemd.generator (7) - systemd unit generators
+systemd.image-policy (7) - Disk Image Dissection Policy
+systemd.index (7)    - List all manpages from the systemd project
+systemd.journal-fields (7) - Special journal fields
+systemd.kill (5)     - Process killing procedure configuration
+systemd.link (5)     - Network device configuration
+systemd.mount (5)    - Mount unit configuration
+systemd.negative (5) - DNSSEC trust anchor configuration files
+systemd.net-naming-scheme (7) - Network device naming schemes
+systemd.netdev (5)   - Virtual Network Device configuration
+systemd.network (5)  - Network configuration
+systemd.nspawn (5)   - Container settings
+systemd.offline-updates (7) - Implementation of offline updates in systemd
+systemd.path (5)     - Path unit configuration
+systemd.pcrlock (5)  - PCR measurement prediction files
+systemd.pcrlock.d (5) - PCR measurement prediction files
+systemd.positive (5) - DNSSEC trust anchor configuration files
+systemd.preset (5)   - Service enablement presets
+systemd.resource-control (5) - Resource control unit settings
+systemd.scope (5)    - Scope unit configuration
+systemd.service (5)  - Service unit configuration
+systemd.slice (5)    - Slice unit configuration
+systemd.socket (5)   - Socket unit configuration
+systemd.special (7)  - Special systemd units
+systemd.swap (5)     - Swap unit configuration
+systemd.syntax (7)   - General syntax of systemd configuration files
+systemd.system-credentials (7) - System Credentials
+systemd.target (5)   - Target unit configuration
+systemd.time (7)     - Time and date specifications
+systemd.timer (5)    - Timer unit configuration
+systemd.unit (5)     - Unit configuration
+```
+
+I did learn one new thing - check for enabled status with `is-enabled` subcommand:
+
+```txt
+$ systemctl is-enabled sshd
+enabled
+```
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
