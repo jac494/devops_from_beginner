@@ -208,6 +208,25 @@ Commands:
 
 ### File Permissions
 
+```txt
+$ ls -alh | grep "\.sh"
+-rwxr-xr-x. 1 jac494 jac494  129 Aug  6 20:14 stdout_stderr.sh
+-                            -file type, '-' = regular file
+ rwx                         -user bits (read, write, execute)
+    r-x                      -group bits (read, execute)
+       r-x                   -Other/'world' bits (read, execute)
+          .                  -?
+            1                -?
+              jac494         -user owner for the file
+                     jac494  -group owner for the file
+```
+
+In the output above, I am curious about the period and the integer there, it's '1' a lot but sometimes not and idk what it means.
+
+for a directory, `x`/execute permissions mean that you can change into that directory (`cd`); `r`/read means that you can read the listing of contents in the directory (`ls`); `w`/write means you can edit the directory (add and remove files) or delete the directory
+
+for a link, the permissions are for the link, not for the actual file that it links to
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
