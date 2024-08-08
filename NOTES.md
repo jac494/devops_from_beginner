@@ -387,6 +387,85 @@ $ systemctl is-enabled sshd
 enabled
 ```
 
+### Processes
+
+```txt
+$ top -n 1
+top - 17:09:22 up 1 day, 21:54,  2 users,  load average: 0.36, 0.17, 0.13
+Tasks: 214 total,   1 running, 213 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.4 us,  2.9 sy,  0.0 ni, 95.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :  15864.2 total,   7340.4 free,   3786.1 used,   4737.8 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.  10973.3 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+  38623 jac494    20   0   13224   4096   3328 R  12.5   0.0   0:00.02 top
+      1 root      20   0  168168  13056   8192 S   0.0   0.1   0:04.64 systemd
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 slub_flushwq
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 netns
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri
+     11 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 mm_percpu_wq
+```
+
+* **load average**: measure of cpu wait time (1m,5m,15m in `top`)
+* **zombie**: process is done but entry is still in the process table
+* **orphan**: a child process whose parent process has been terminated but the child still exists
+
+processes below in square brackets are kernel threads
+
+```txt
+$ ps aux | head -5
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1  64468 26844 ?        Ss   Aug06   0:09 /usr/lib/systemd/systemd --switched-root --system --deserialize=41 rhgb
+root           2  0.0  0.0      0     0 ?        S    Aug06   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    Aug06   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   Aug06   0:00 [kworker/R-rcu_gp]
+
+$ ps aux | grep -v " \[" | head -5
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1  64468 26844 ?        Ss   Aug06   0:09 /usr/lib/systemd/systemd --switched-root --system --deserialize=41 rhgb
+root        7720  0.0  0.1 139964 28824 ?        Ss   Aug06   0:25 /usr/lib/systemd/systemd-journald
+root        7752  0.0  0.0  16200  6356 ?        Ss   Aug06   0:01 /usr/lib/systemd/systemd-userdbd
+root        7780  0.0  0.0  36932 12976 ?        Ss   Aug06   0:00 /usr/lib/systemd/systemd-udevd
+
+$ ps -ef | grep -v " \[" | head -5 
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 Aug06 ?        00:00:09 /usr/lib/systemd/systemd --switched-root --system --deserialize=41 rhgb
+root        7720       1  0 Aug06 ?        00:00:25 /usr/lib/systemd/systemd-journald
+root        7752       1  0 Aug06 ?        00:00:01 /usr/lib/systemd/systemd-userdbd
+root        7780       1  0 Aug06 ?        00:00:00 /usr/lib/systemd/systemd-udevd
+```
+
+just playing around with awk and grep, printing ppid, pid, and name of all processes that are direct children of pid 1
+
+```txt
+$ ps -ef | grep -v " \[" | awk '{print $3" "$2" "$8}' | grep "^1 "
+1 7720 /usr/lib/systemd/systemd-journald
+1 7752 /usr/lib/systemd/systemd-userdbd
+1 7780 /usr/lib/systemd/systemd-udevd
+1 7956 /usr/lib/systemd/systemd-oomd
+1 7957 /usr/lib/systemd/systemd-resolved
+1 7990 /usr/sbin/auditd
+1 8002 /usr/bin/dbus-broker-launch
+1 8016 /usr/libexec/bluetooth/bluetoothd
+1 8020 /usr/libexec/low-memory-monitor
+1 8021 /usr/sbin/mcelog
+1 8022 /usr/lib/polkit-1/polkitd
+1 8023 /usr/libexec/power-profiles-daemon
+1 8026 /usr/libexec/rtkit-daemon
+1 125422 sh
+...
+```
+
+#### `kill`
+
+* by default asks that process clean up children then terminate
+* `-9` forces process closure, does not allow for cleaning up children
+
+### Archiving
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
