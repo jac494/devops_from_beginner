@@ -466,6 +466,14 @@ $ ps -ef | grep -v " \[" | awk '{print $3" "$2" "$8}' | grep "^1 "
 
 ### Archiving
 
+* `tar -czvf  <archive name>.tar.gz path_to_create_archive_from`
+  * **c**: create
+* `tar -xzvf <tarfile>`
+  * **x**: extract
+* **z**: filter through gzip = compress
+* **v**: verbose
+* **f**: file
+
 ## 5. Vagrant & Linux Servers
 
 ## 6. Variables, JSON, & YAML
