@@ -476,7 +476,206 @@ $ ps -ef | grep -v " \[" | awk '{print $3" "$2" "$8}' | grep "^1 "
 
 ## 5. Vagrant & Linux Servers
 
+[Vagrant Docs](https://developer.hashicorp.com/vagrant/docs)
+
+* Created centos and ubuntu machines
+* interesting note - vagrant config is ruby
+
+```txt
+$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Importing base box 'ubuntu/trusty64'...
+==> default: Matching MAC address for NAT networking...
+==> default: Checking if box 'ubuntu/trusty64' version '20191107.0.0' is up to date...
+==> default: Setting the name of the VM: ubuntu_default_1723299247442_81515
+==> default: Clearing any previously set forwarded ports...
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+    default: Adapter 2: hostonly
+    default: Adapter 3: bridged
+==> default: Forwarding ports...
+    default: 22 (guest) => 2222 (host) (adapter 1)
+==> default: Running 'pre-boot' VM customizations...
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default: Warning: Connection reset. Retrying...
+    default: Warning: Connection aborted. Retrying...
+    default:
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default:
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it's present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> default: Machine booted and ready!
+==> default: Configuring and enabling network interfaces...
+==> default: Mounting shared folders...
+    default: /vagrant => C:/Users/jac49/vagrant_vms/ubuntu
+
+$ vagrant status
+Current machine states:
+
+default                   running (virtualbox)
+
+The VM is running. To stop this VM, ...
+
+$ vagrant global-status
+id       name    provider   state   directory
+------------------------------------------------------------------------
+c835c47  default virtualbox running C:/Users/jac49/vagrant_vms/ubuntu
+
+The above shows information about all known Vagrant environments
+on this machine. This data is cached and may not be completely
+up-to-date (use "vagrant global-status --prune" to prune invalid
+entries). To interact with any of the machines, you can go to that
+directory and run Vagrant, or you can use the ID directly with
+Vagrant commands from any directory. For example:
+"vagrant destroy 1a2b3c4d"
+```
+
+### Sync Directories
+
+Files are synced by default between the vagrant directory on the host and `/vagrant` on the guest VM
+
+Only the Vagrantfile, no other files currently
+
+```txt
+$ ls
+
+
+    Directory: C:\Users\jac49\vagrant_vms\ubuntu
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         8/10/2024   8:44 AM                .vagrant
+-a----         8/10/2024   9:00 AM           3515 Vagrantfile
+
+
+$ vagrant ssh
+Welcome to Ubuntu 14.04.6 LTS (GNU/Linux 3.13.0-170-generic x86_64)
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ls /vagrant
+Vagrantfile
+vagrant@vagrant-ubuntu-trusty-64:~$ exit
+logout
+Connection to 127.0.0.1 closed.
+```
+
+Creating "test1.txt" on the host
+
+```txt
+$ ls
+
+
+    Directory: C:\Users\jac49\vagrant_vms\ubuntu
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         8/10/2024   8:44 AM                .vagrant
+-a----         8/10/2024   9:00 AM           3515 Vagrantfile
+
+$ New-Item -ItemType File -Name "test1.txt"
+
+
+    Directory: C:\Users\jac49\vagrant_vms\ubuntu
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         8/10/2024   9:20 AM              0 test1.txt
+
+
+$ vagrant ssh
+Welcome to Ubuntu 14.04.6 LTS (GNU/Linux 3.13.0-170-generic x86_64)
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ls /vagrant
+test1.txt  Vagrantfile
+vagrant@vagrant-ubuntu-trusty-64:~$
+```
+
+Create some files in the guest vm...
+
+```txt
+vagrant@vagrant-ubuntu-trusty-64:~$ touch /vagrant/test{2..4}.txt
+vagrant@vagrant-ubuntu-trusty-64:~$ ls /vagrant
+test1.txt  test2.txt  test3.txt  test4.txt  Vagrantfile
+vagrant@vagrant-ubuntu-trusty-64:~$ exit
+logout
+Connection to 127.0.0.1 closed.
+$ ls
+
+
+    Directory: C:\Users\jac49\vagrant_vms\ubuntu
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         8/10/2024   8:44 AM                .vagrant
+-a----         8/10/2024   9:20 AM              0 test1.txt
+-a----         8/10/2024   9:24 AM              0 test2.txt
+-a----         8/10/2024   9:24 AM              0 test3.txt
+-a----         8/10/2024   9:24 AM              0 test4.txt
+-a----         8/10/2024   9:00 AM           3515 Vagrantfile
+```
+
+Add a path from host ot guest:
+
+```rb
+config.vm.synced_folder "host_path", "guest_path"
+```
+
+```rb
+config.vm.synced_folder "..\\sync_dir", "/vagrant_sync_dir"
+```
+
+```txt
+$ ls ..
+
+
+    Directory: C:\Users\jac49\vagrant_vms
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         8/10/2024   8:13 AM                centos
+d-----         8/10/2024  11:30 AM                sync_dir
+d-----         8/10/2024  11:31 AM                ubuntu
+-a----         8/10/2024   8:42 AM             10 .gitignore
+
+$ ls / | grep vagr
+vagrant
+vagrant_sync_dir
+```
+
+### [Multi-Machine](https://developer.hashicorp.com/vagrant/docs/multi-machine)
+
+```rb
+Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: "echo Hello"
+
+  config.vm.define "web" do |web|
+    web.vm.box = "apache"
+  end
+
+  config.vm.define "db" do |db|
+    db.vm.box = "mysql"
+  end
+end
+```
+
 ## 6. Variables, JSON, & YAML
+
+Nothing really interesting or suprising here;
+
+* [JSON Syntax - Wikipedia](https://en.wikipedia.org/wiki/JSON#Syntax)
+* [YAML.org](https://yaml.org/)
+* [Python Data Model - Objects, Values, and Types](https://docs.python.org/3/reference/datamodel.html#objects-values-and-types)
 
 ## 7. VProfile Project Setup Manual & Automated
 
