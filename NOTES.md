@@ -679,6 +679,15 @@ Nothing really interesting or suprising here;
 
 ## 7. VProfile Project Setup Manual & Automated
 
+Webapp cluster setup:
+
+* **nginx**: edge load balancer
+  * **tomcat**: java web app service
+    * **nfs**: storage
+    * **rabbitmq**: message broker/queuing-agent service
+    * **memcached**: db caching
+      * **mysql**: db storage
+
 ## 8. Networking
 
 ## 9. Introducing Containers
